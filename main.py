@@ -19,13 +19,10 @@ velo_y = 6.5*seno
 tempo_x = funcoes.Calcula_tempo(x_init, acele_x, 4.125)
 tempo_y = funcoes.Calcula_tempo(y_init, acele_y, 4.5)
 
-tempo_final = funcoes.Calcula_modulo(tempo_x, tempo_y)
+funcoes.Calculo_ponto_a_ponto(x_init, y_init, acele_x, acele_y)
+funcoes.Calculo_velocidade(acele_x, acele_y)
 
-print(angulo)
-print(acele_x)
+print(tempo_x)
 print(acele_y)
-
-print(coss)
-print(seno)
-
-print(tempo_final)
+print(velo_x)
+print(velo_y)
