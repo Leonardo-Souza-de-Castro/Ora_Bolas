@@ -1,5 +1,30 @@
 from math import sqrt, pi
 import csv
+from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+import os
+
+def Upload_azure(caminho_arq, nome):
+
+    # Defina suas credenciais do Azure
+    connection_string = "DefaultEndpointsProtocol=https;AccountName=roboprojeto;AccountKey=k30sq74860MOmj+fAQUO+rmMYyy6zYGC5Vo3tl2A5wYyQJhIrZXy7FwpxGjPSBFPVMKbGHByIAPI+AStqkE/JQ==;EndpointSuffix=core.windows.net"
+    container_name = "teste"
+
+    # Caminho local do arquivo que você deseja enviar para o Azure Blob Storage
+    local_file_path = caminho_arq
+    blob_name = nome
+
+    # Criar um BlobServiceClient
+    blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+
+    # Criar um ContainerClient
+    container_client = blob_service_client.get_container_client(container_name)
+
+    # Upload do arquivo para o Blob Storage
+    blob_client = container_client.get_blob_client(blob_name)
+    with open(local_file_path, "rb") as data:
+        blob_client.upload_blob(data, overwrite=True)
+
+    print("Arquivo enviado com sucesso para o Azure Blob Storage.")
 
 def Calcula_angulo(x_init, y_init):
     return (4.5-y_init) / (4.125-x_init)
@@ -19,59 +44,47 @@ def Calculo_ponto_a_ponto(initx, inity, ace_x, ace_y):
         fieldnames=['Tempo(s)', 'X(M)', 'Y(M)'] # Inicializa os cabecalhos
 
         escrever = csv.DictWriter(arquivoCSV, fieldnames=fieldnames, lineterminator='\r') #inicializa o escritor de linhas
-        if arquivoCSV.tell == 0: #Caso seja a linha 0
-            escrever.writeheader() #Escreve o cabecalho do arquivo
+        escrever.writeheader() #Escreve o cabecalho do arquivo
 
         x = 0 #Inicializa a contagem do tempo no t = 0
         while(x <= tempo):
-            pos_x = initx+((ace_x*(x*x))/2)
+            pos_x = initx+((ace_x*(x**2))/2)
 
-            pos_y = inity+((ace_y*(x*x))/2)
+            pos_y = inity+((ace_y*(x**2))/2)
 
-            if (x>=2.0881):
+            if pos_x >= 4.125:
                 pos_x = 4.125
+
+            if pos_y >= 4.5:
                 pos_y = 4.5
 
             escrever.writerow({'Tempo(s)': '{:.4f}'.format(x), 'X(M)': '{:.3f}'.format(pos_x), 'Y(M)':'{:.3f}'.format(pos_y)}) #Escreve a info certa na coluna certa
 
-            x += 0.0001
+            x += 0.02
+    Upload_azure("posicao.csv","posicao.csv" )
 
-def Calculo_velocidade(ace_x, ace_y,vx_init=0, vy_init=0):
+def Calculo_velocidade(ace_x, ace_y,coss, seno, vx_init=0, vy_init=0):
     tempo = 5
     with open("velocidade.csv", "w", encoding='utf-8') as arquivoCSV: #Cria arquivo csv no modo escrita
         fieldnames=['Tempo(s)', 'Vx(M)', 'Vy(M)'] # Inicializa os cabecalhos
 
         escrever = csv.DictWriter(arquivoCSV, fieldnames=fieldnames, lineterminator='\r') #inicializa o escritor de linhas
-        if arquivoCSV.tell == 0: #Caso seja a linha 0
-            escrever.writeheader() #Escreve o cabecalho do arquivo
+        escrever.writeheader() #Escreve o cabecalho do arquivo
 
         x = 0 #Inicializa a contagem do tempo no t = 0
         while(x <= tempo):
 
-            if(x>=2.0878 and x<=2.0881):
-                pos_x = pos_x - ace_x
-                if pos_x < 0:
-                    pos_x = 0
-            else:
-                pos_x = vx_init+(ace_x*x)
+            pos_x = vx_init+(ace_x*x)
 
-            if(pos_x >= 4.39):
-                pos_x = 4.39
+            pos_y = vy_init+(ace_y*x)
 
-            if(x>=2.0878 and x<=2.0881):
-                pos_y = pos_y - ace_y
-                if pos_y < 0:
-                    pos_y = 0
-            else:
-                pos_y = vy_init+(ace_y*x)
-            if(pos_y >= 4.79):
-                pos_y = 4.79
-
-            if (x>2.0881):
-                pos_x = 0
-                pos_y = 0
+            if Calcula_modulo(pos_x, pos_y) >= 2.5:
+                pos_x = 2.5*coss
+                pos_y = 2.5*seno
 
 
             escrever.writerow({'Tempo(s)': '{:.4f}'.format(x), 'Vx(M)': '{:.3f}'.format(pos_x), 'Vy(M)':'{:.3f}'.format(pos_y)}) #Escreve a info certa na coluna certa
 
-            x += 0.0001
+            x += 0.02
+
+    Upload_azure("velocidade.csv","velocidade.csv" )
