@@ -36,8 +36,8 @@ def processar():
     acele_x = 0.5*coss
     acele_y = 0.5*seno
 
-    funcoes.Calculo_ponto_a_ponto(x_init, y_init, acele_x, acele_y)
-    funcoes.Calculo_velocidade(acele_x, acele_y, coss, seno)
+    # funcoes.Calculo_ponto_a_ponto(x_init, y_init, acele_x, acele_y)
+    # funcoes.Calculo_velocidade(acele_x, acele_y, coss, seno)
     
     bola_data = ler_csv('posicao-bola.csv')
     robo_data = ler_csv('posicao.csv')
