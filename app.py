@@ -1,13 +1,24 @@
 import funcoes
+import csv
 from math import cos, sin, atan, pi
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
-@app.route("/")
-def index():
-    nome = "Fernanda"
 
-    return render_template("index.html", nome=nome)
+# @app.route('/processar', methods=['POST'])
+# def processar():
+#     # Ler os dados dos arquivos CSV na memória
+#     bola_data = ler_csv('posicao-bola.csv')
+#     robo_data = ler_csv('posicao.csv')
+
+#     # Enviar os dados para o frontend
+#     return render_template('processa.html', bola_data=bola_data, robo_data=robo_data)
+
+@app.route('/')
+def index():
+
+    # Enviar os dados para o frontend
+    return render_template('index.html')
 
 @app.route('/processar', methods=['POST'])
 def processar():
@@ -28,7 +39,25 @@ def processar():
     funcoes.Calculo_ponto_a_ponto(x_init, y_init, acele_x, acele_y)
     funcoes.Calculo_velocidade(acele_x, acele_y, coss, seno)
     
-    return render_template("index.html", valor=angulo)
+    bola_data = ler_csv('posicao-bola.csv')
+    robo_data = ler_csv('posicao.csv')
+
+    # Enviar os dados para o frontend
+    return render_template('processa.html', bola_data=bola_data, robo_data=robo_data)
+
+
+def ler_csv(arquivo):
+    pos_x = []
+    pos_y = []
+    with open(arquivo, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)
+
+        for row in reader:
+            pos_x.append(float(row[1]) *75)
+            pos_y.append(float(row[2]) *75)
+
+        return pos_x, pos_y
 
 if __name__ == "__main__":
     app.run(debug=True)

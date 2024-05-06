@@ -6,7 +6,7 @@ import os
 def Upload_azure(caminho_arq, nome):
 
     # Defina suas credenciais do Azure
-    connection_string = "connection_string"
+    connection_string = "DefaultEndpointsProtocol=https;AccountName=roboprojeto;AccountKey=k30sq74860MOmj+fAQUO+rmMYyy6zYGC5Vo3tl2A5wYyQJhIrZXy7FwpxGjPSBFPVMKbGHByIAPI+AStqkE/JQ==;EndpointSuffix=core.windows.net"
     container_name = "teste"
 
     # Caminho local do arquivo que você deseja enviar para o Azure Blob Storage
