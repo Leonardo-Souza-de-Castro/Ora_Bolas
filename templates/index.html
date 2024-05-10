@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     <title>Ora bolas</title>
 </head>
-<body>
-    <form action="/processar" method="post" id="form" >
-        <label for="valor">Digite um valor para x inicial:</label>
-        <input type="text" id="x" name="x">
-        <label for="valor">Digite um valor para y inicial:</label>
-        <input type="text" id="y" name="y">
-        <button type="submit">Enviar</button>
-    </form>
-
-    <!-- <iframe title="graficos robo" width="600" height="636" src="https://app.powerbi.com/view?r=eyJrIjoiYTA3NDEyODktMWFlNy00YmI3LTkzOTEtMjhlZTMzNzY0M2ZkIiwidCI6ImIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZCJ9" frameborder="0" allowFullScreen="true"></iframe>
-    <canvas id="myCanvas" width="500" height="500" style="border:1px solid black;"></canvas> -->
+<body class="container">
+    <section class="container-img">
+        <img src="../static/img/robo.svg" alt="robo">
+    </section>
+    <section class="container-form">
+        <form action="/processar" method="post" id="form" >
+            <label for="valor">Digite um valor para x inicial:</label>
+            <input type="text" id="x" name="x">
+            <label for="valor">Digite um valor para y inicial:</label>
+            <input type="text" id="y" name="y">
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
 </body>
 </html>

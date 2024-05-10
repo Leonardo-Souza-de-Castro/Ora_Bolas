@@ -5,6 +5,54 @@
     box-sizing: border-box;
 }
 
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container-img{
+    height: 50%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-form{
+    height: 50%;
+    width: 50%;
+}
+
+.container-form form{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.container-form label{
+    font-family: verdana;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.container-form input{
+    font-family: verdana;
+    height: 27px;
+    width: 45%;
+}
+
+.container-form button{
+    height: 9%;
+    width: 35%;
+    font-size: 85%;
+    font-family: verdana;
+}
+
 .titulo{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 500;
