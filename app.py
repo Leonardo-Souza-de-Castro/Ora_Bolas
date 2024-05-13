@@ -5,15 +5,6 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# @app.route('/processar', methods=['POST'])
-# def processar():
-#     # Ler os dados dos arquivos CSV na memória
-#     bola_data = ler_csv('posicao-bola.csv')
-#     robo_data = ler_csv('posicao.csv')
-
-#     # Enviar os dados para o frontend
-#     return render_template('processa.html', bola_data=bola_data, robo_data=robo_data)
-
 @app.route('/')
 def index():
 

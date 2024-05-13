@@ -1,7 +1,6 @@
 from math import sqrt, pi
 import csv
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
-import os
 
 def Upload_azure(caminho_arq, nome):
 

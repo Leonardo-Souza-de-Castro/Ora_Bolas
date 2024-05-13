@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     <title>Ora bolas</title>
 </head>
-<body onload="animarCanvas(JSON.parse('{{bola_data|tojson}}'), JSON.parse('{{robo_data|tojson}}'))">
-    <form action="/processar" method="post" id="form" >
-        <label for="valor">Digite um valor para x inicial:</label>
-        <input type="text" id="x" name="x">
-        <label for="valor">Digite um valor para y inicial:</label>
-        <input type="text" id="y" name="y">
-        <button type="submit">Enviar</button>
-    </form>
 
-    <iframe title="graficos robo" width="900" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiYTA3NDEyODktMWFlNy00YmI3LTkzOTEtMjhlZTMzNzY0M2ZkIiwidCI6ImIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZCJ9" frameborder="0" allowFullScreen="true"></iframe>
-    <canvas id="myCanvas" width="500" height="500" style="border:1px solid black;"></canvas>
-
+<body onload="animarCanvas(JSON.parse('{{bola_data|tojson}}'), JSON.parse('{{robo_data|tojson}}'))" class="container-2">
+    <section class="container-canva">
+        <div class="box-grafico">
+            <h1 class="titulo">Animação do movimento:</h1>
+            <canvas id="myCanvas" width="900" height="600" style="border:1px solid black;"></canvas>
+        </div>
+        <div class="box-grafico">
+            <h1 class="titulo">Gráficos: </h1>
+            <iframe title="gráficos robo" width="900" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiYTA3NDEyODktMWFlNy00YmI3LTkzOTEtMjhlZTMzNzY0M2ZkIiwidCI6ImIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZCJ9" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+    </section>
+    
     <script>
         function animarCanvas(bola_data, robo_data) {
 
@@ -25,7 +28,11 @@
 
             var currentIndex = 0;
             var velocidade = 50; // Ajuste a velocidade da animação conforme necessário
-            
+
+            // Carregar imagem de fundo
+            var campoImg = new Image();
+            campoImg.src = '../static/img/campo.jpg'; // Substitua pelo caminho correto da sua imagem
+
             // Função para desenhar a bola no canvas
             function desenharBola(x, y) {
                 var raio = 6; // Raio original da bola
@@ -46,35 +53,39 @@
                 ctx.fill();
                 ctx.closePath();
             }
-            
+
             // Função de animação
             function animacao() {
                 // Limpar o canvas a cada quadro da animação
 
                 if (currentIndex < bola_data[0].length && currentIndex < robo_data[0].length) {
+                    // fundo();
+
                     var x_bola = bola_data[0][currentIndex];
                     var y_bola = bola_data[1][currentIndex];
                     var x_robo = robo_data[0][currentIndex];
                     var y_robo = robo_data[1][currentIndex];
 
-                    console.log("Bola: ", (x_bola/75), (y_bola/75));
-                    console.log("Robo: ", (x_robo/75), (y_robo/75));
+                    console.log("Bola: ", (x_bola / 75), (y_bola / 75));
+                    console.log("Robo: ", (x_robo / 75), (y_robo / 75));
 
-                    if (x_bola/75 != 4.125 && y_bola/75 != 4.5) {
+                    if (x_bola / 75 != 4.125 && y_bola / 75 != 4.5) {
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(campoImg, 0, 0, canvas.width, canvas.height);
                     }
 
                     desenharBola(x_bola, y_bola);
                     desenharRobo(x_robo, y_robo);
-                    
+
                     currentIndex++;
                     setTimeout(animacao, velocidade); // Chamar a função novamente após um intervalo de tempo
                 }
             }
-            
+
             // Iniciar a animação
-            animacao();
+            animacao()
         }
     </script>
 </body>
+
 </html>
