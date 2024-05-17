@@ -15,12 +15,20 @@
             <canvas id="myCanvas" width="900" height="600" style="border:1px solid black;"></canvas>
         </div>
         <div class="box-grafico">
-            <h1 class="titulo">Gráficos: </h1>
-            <iframe title="gráficos robo" width="900" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiYTA3NDEyODktMWFlNy00YmI3LTkzOTEtMjhlZTMzNzY0M2ZkIiwidCI6ImIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZCJ9" frameborder="0" allowFullScreen="true"></iframe>
+            <div class="box-coisas">
+                <h1 class="titulo">Gráficos: </h1>
+                <button onclick="atualizarIframe()" class="botao"><img src="../static/img/refresh.svg" alt="recarregar"></button>
+            </div>
+            <iframe id="myIframe" title="gráficos robo" width="900" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiYTA3NDEyODktMWFlNy00YmI3LTkzOTEtMjhlZTMzNzY0M2ZkIiwidCI6ImIxMDUxYzRiLTNiOTQtNDFhYi05NDQxLWU3M2E3MjM0MmZkZCJ9" frameborder="0" allowFullScreen="true"></iframe>
         </div>
     </section>
     
     <script>
+        function atualizarIframe() {
+            var iframe = document.getElementById('myIframe');
+            iframe.src = iframe.src; // Isto força o iframe a recarregar a URL
+          }
+        
         function animarCanvas(bola_data, robo_data) {
 
             var canvas = document.getElementById("myCanvas");

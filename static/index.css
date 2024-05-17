@@ -107,3 +107,16 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.box-coisas{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.botao{
+    height: 100%;
+    width: 3%;
+    background-color: white;
+}
